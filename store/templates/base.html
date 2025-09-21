@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Магазин</title>
+    <style>
+        .product-card { border: 1px solid #ddd; padding: 15px; margin: 10px; }
+        .product-detail img { max-width: 300px; }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Мой магазин</a>
+
+        <div class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <span class="navbar-text mr-3">Привет, {{ user.first_name }}!</span>
+                <a class="nav-link" href="{% url 'my_account' %}">Личный кабинет</a>
+                <a class="nav-link" href="{% url 'cart' %}">Корзина</a>
+                <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+</html>

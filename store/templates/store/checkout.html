@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Оформление заказа</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="address">Адрес доставки:</label>
+        <textarea class="form-control" id="address" name="address" required></textarea>
+    </div>
+    <h3>Ваш заказ:</h3>
+    <ul>
+        {% for item in cart.items.all %}
+        <li>{{ item.product.name }} - {{ item.quantity }} × {{ item.product.price }} ₽</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Итого: {{ cart.total_price }} ₽</strong></p>
+    <button type="submit" class="btn btn-success">Подтвердить заказ</button>
+</form>
+{% endblock %}

@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Ноутбук HP",
+        "description": "15.6 дюймов, 8GB RAM",
+        "price": 59990.00,
+        "quantity": 15
+    },
+    {
+        "name": "Смартфон Samsung",
+        "description": "6.4 дюймов, 128GB",
+        "price": 34990.00,
+        "quantity": 23
+    }
+]

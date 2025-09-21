@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4>Заказ #{{ order.id }}</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Дата:</strong> {{ order.order_date|date:"d.m.Y H:i" }}</p>
+            <p><strong>Статус:</strong>
+                <span class="badge
+                    {% if order.status == 'delivered' %}bg-success
+                    {% elif order.status == 'cancelled' %}bg-danger
+                    {% else %}bg-secondary{% endif %}">
+                    {{ order.get_status_display }}
+                </span>
+            </p>
+            <p><strong>Адрес доставки:</strong> {{ order.shipping_address }}</p>
+
+            <h5 class="mt-4">Состав заказа:</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.price }} ₽</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price|mul:item.quantity }} ₽</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3">Итого:</th>
+                        <th>{{ order.total_amount }} ₽</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <a href="{% url 'my_account' %}" class="btn btn-secondary">Назад</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

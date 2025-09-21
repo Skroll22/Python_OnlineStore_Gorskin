@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Личные данные</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Имя</label>
+                            <input type="text" name="first_name" value="{{ user.first_name }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Фамилия</label>
+                            <input type="text" name="last_name" value="{{ user.last_name }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" value="{{ user.email }}" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>Смена пароля</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ password_form.as_p }}
+                        <button type="submit" name="change_password" class="btn btn-warning">Сменить пароль</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>История заказов</h4>
+                </div>
+                <div class="card-body">
+                    {% if orders %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Дата</th>
+                                    <th>Сумма</th>
+                                    <th>Статус</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.order_date|date:"d.m.Y" }}</td>
+                                    <td>{{ order.total_amount }} ₽</td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if order.status == 'delivered' %}bg-success
+                                            {% elif order.status == 'cancelled' %}bg-danger
+                                            {% else %}bg-secondary{% endif %}">
+                                            {{ order.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-info">Подробнее</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>У вас пока нет заказов</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

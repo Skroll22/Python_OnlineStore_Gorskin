@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Заказ успешно оформлен!</h1>
+<p>Номер вашего заказа: <strong>#{{ order.id }}</strong></p>
+<p>Статус: <span class="badge bg-primary">{{ order.get_status_display }}</span></p>
+<p>Сумма: <strong>{{ order.total_amount }} ₽</strong></p>
+<p>Адрес доставки: {{ order.shipping_address }}</p>
+<a href="{% url 'product_list' %}" class="btn btn-primary">Вернуться к покупкам</a>
+{% endblock %}
