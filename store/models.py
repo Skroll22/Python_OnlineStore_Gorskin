@@ -120,6 +120,11 @@ class Cart(models.Model):
             cart_item.save()
         return cart_item
 
+    def add_product(self, product, quantity=1):
+        """Делегируем добавление товара сервису"""
+        from .services import CartService
+        return CartService.add_to_cart(self, product.id, quantity)
+
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items", verbose_name="Корзина")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
